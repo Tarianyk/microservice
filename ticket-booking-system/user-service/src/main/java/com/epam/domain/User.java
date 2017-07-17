@@ -1,23 +1,16 @@
 package com.epam.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
+@Data
 public class User {
-    /**
-     * User Id. UNIQUE.
-     */
-    @Setter
-    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Setter
-    @Getter
     String name;
-
-    /**
-     * User email. UNIQUE.
-     */
-    @Setter
-    @Getter
     String email;
 }
