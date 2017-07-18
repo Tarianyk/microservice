@@ -1,6 +1,7 @@
 package com.epam.controllers;
 
 import com.epam.domain.User;
+import com.epam.exceptions.UserExistException;
 import com.epam.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//TODO: remake on different methods
+//TODO: remake on different types of methods
 public class UserController {
+
+    private static final String USER_ALREADY_EXISTS = "User already exists.";
 
     @Autowired
     private IUserService userService;
@@ -48,7 +51,7 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
         if (userService.isUserExist(user)) {
-            return new ResponseEntity<String>("CONFLICT ERROR", HttpStatus.CONFLICT);
+            throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
         userService.createUser(user);
 
@@ -59,7 +62,7 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity<?> updateUser(@RequestBody @Valid User user) {
         if (!userService.isUserExist(user)) {
-            return new ResponseEntity<String>("CONFLICT ERROR", HttpStatus.CONFLICT);
+            throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
         User updatedUser = userService.updateUser(user);
 

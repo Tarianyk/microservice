@@ -41,7 +41,6 @@ public class UserService implements IUserService {
 
     @Override
     public User updateUser(User user) {
-        System.err.println(user);
         return userRepository.save(user);
     }
 
