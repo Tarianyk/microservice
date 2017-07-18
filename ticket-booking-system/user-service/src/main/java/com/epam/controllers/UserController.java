@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
         if (userService.isUserExist(user)) {
             return new ResponseEntity<String>("CONFLICT ERROR", HttpStatus.CONFLICT);
         }
@@ -56,7 +57,7 @@ public class UserController {
 
     //TODO: remake query
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    public ResponseEntity<?> updateUser(@RequestBody @Valid User user) {
         if (!userService.isUserExist(user)) {
             return new ResponseEntity<String>("CONFLICT ERROR", HttpStatus.CONFLICT);
         }
