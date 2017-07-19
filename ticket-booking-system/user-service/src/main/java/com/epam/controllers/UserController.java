@@ -3,6 +3,7 @@ package com.epam.controllers;
 import com.epam.domain.User;
 import com.epam.exceptions.UserExistException;
 import com.epam.services.IUserService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class UserController {
         Optional<List<User>> optUsers = Optional.ofNullable(userService.getUsersByName(name, pageSize, pageNum));
 
         return optUsers.map(users -> new ResponseEntity<List<User>>(users, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT));
+                .orElseGet(() -> new ResponseEntity<List<User>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
