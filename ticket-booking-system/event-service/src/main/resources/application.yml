@@ -13,3 +13,6 @@ eureka:
       defaultZone: http://localhost:8070/eureka/
   instance:
     hostname: localhost
+
+
+

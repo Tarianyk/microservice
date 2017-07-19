@@ -20,7 +20,16 @@ public class Event {
     @Size(min = 3, max = 10, message = "Error in size")
     @Column(name = "title")
     private String title;
-    @NotNull
-    //TODO: add validation to date
+    @Column(name = "date", columnDefinition = "DATE")
     private Date date;
+
+    @PrePersist
+    protected void onCreate() {
+        date = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Date();
+    }
 }
