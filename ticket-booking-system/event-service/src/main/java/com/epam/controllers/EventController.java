@@ -3,6 +3,7 @@ package com.epam.controllers;
 import com.epam.domain.Event;
 import com.epam.exceptions.EventExistsException;
 import com.epam.services.IEventService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class EventController {
         Optional<List<Event>> optListOfEvent = Optional.ofNullable(eventService.getEventsByTitle(title, pageSize, pageNum));
 
         return optListOfEvent.map(events -> new ResponseEntity<List<Event>>(events, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<List<Event>>(HttpStatus.NO_CONTENT));
+                .orElseGet(() -> new ResponseEntity<List<Event>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
     //TODO: In case nothing was found, empty list is returned.
@@ -52,7 +53,7 @@ public class EventController {
         Optional<List<Event>> optListOfEvent = Optional.ofNullable(eventService.getEventsForDay(java.sql.Date.valueOf(localDate), pageSize, pageNum));
 
         return optListOfEvent.map(events -> new ResponseEntity<List<Event>>(events, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<List<Event>>(HttpStatus.NO_CONTENT));
+                .orElseGet(() -> new ResponseEntity<List<Event>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
