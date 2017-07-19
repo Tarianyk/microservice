@@ -11,6 +11,8 @@
         <module>user-service</module>
         <module>eureka-service</module>
         <module>ticket-service</module>
+        <module>rabbitmq-service</module>
+        <module>rabbit-service</module>
     </modules>
     <packaging>pom</packaging>
 
