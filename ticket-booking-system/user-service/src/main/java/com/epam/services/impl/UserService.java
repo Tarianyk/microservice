@@ -1,6 +1,7 @@
 package com.epam.services.impl;
 
 import com.epam.domain.User;
+import com.epam.dto.UserDto;
 import com.epam.repository.UserRepository;
 import com.epam.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,22 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public User createUser(UserDto userDto) {
+        return userRepository.save(extractUser(userDto));
+    }
+
+    private User extractUser(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        return user;
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(UserDto userDto) {
+        User user = extractUser(userDto);
+
         return userRepository.updateUser(user.getName(), user.getEmail(), user.getId());
     }
 
@@ -54,8 +65,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean isUserExist(User user) {
-        return Optional.ofNullable(userRepository.findOne(user.getId())).isPresent();
+    public boolean isUserExist(UserDto userDto) {
+        return Optional.ofNullable(userRepository.findOne(userDto.getId())).isPresent();
     }
 
 

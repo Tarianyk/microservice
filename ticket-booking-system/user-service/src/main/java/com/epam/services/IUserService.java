@@ -1,6 +1,7 @@
 package com.epam.services;
 
 import com.epam.domain.User;
+import com.epam.dto.UserDto;
 
 import java.util.List;
 
@@ -35,18 +36,18 @@ public interface IUserService {
     /**
      * Creates new user. User id should be auto-generated.
      *
-     * @param user User data.
+     * @param userDto User data.
      * @return Created User object.
      */
-    User createUser(User user);
+    User createUser(UserDto userDto);
 
     /**
      * Updates user using given data.
      *
-     * @param user User data for update. Should have id set.
+     * @param userDto User data for update. Should have id set.
      * @return Updated User object.
      */
-    User updateUser(User user);
+    User updateUser(UserDto userDto);
 
     /**
      * Deletes user by its id.
@@ -56,5 +57,5 @@ public interface IUserService {
      */
     boolean deleteUser(long userId);
 
-    boolean isUserExist(User user);
+    boolean isUserExist(UserDto userDto);
 }

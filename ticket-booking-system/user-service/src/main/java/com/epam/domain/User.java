@@ -14,15 +14,9 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
-    @NotEmpty
-    @NotNull
-    @Size(min = 3, max = 10, message = "Error in size")
+    private long id;
     @Column(name = "name")
-    String name;
-    @NotEmpty
-    @NotNull
-    @Email
+    private String name;
     @Column(name = "email")
-    String email;
+    private String email;
 }

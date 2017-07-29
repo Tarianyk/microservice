@@ -1,6 +1,7 @@
 package com.epam.controllers;
 
 import com.epam.domain.User;
+import com.epam.dto.UserDto;
 import com.epam.exceptions.UserExistException;
 import com.epam.services.IUserService;
 import com.google.common.collect.Lists;
@@ -51,22 +52,22 @@ public class UserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
-        if (userService.isUserExist(user)) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserDto userDto) {
+        if (userService.isUserExist(userDto)) {
             throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
-        userService.createUser(user);
+        userService.createUser(userDto);
 
         return new ResponseEntity<String>(HttpStatus.CREATED);
     }
 
     //TODO: remake query
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestBody @Valid User user) {
-        if (!userService.isUserExist(user)) {
+    public ResponseEntity<?> updateUser(@RequestBody @Valid UserDto userDto) {
+        if (!userService.isUserExist(userDto)) {
             throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.updateUser(userDto);
 
         return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
     }
@@ -80,4 +81,6 @@ public class UserController {
 
         return new ResponseEntity<String>("User hasn't been deleted.", HttpStatus.CONFLICT);
     }
+
+
 }
