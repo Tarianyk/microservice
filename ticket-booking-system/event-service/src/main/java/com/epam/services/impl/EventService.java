@@ -6,6 +6,7 @@ import com.epam.services.IEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class EventService implements IEventService {
 
     @Autowired
@@ -25,7 +27,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
-        return eventRepository.findEventsByTitle(title, new PageRequest(pageSize, pageNum));
+        return eventRepository.findEventsByTitleContaining(title, new PageRequest(pageSize, pageNum));
     }
 
     @Override

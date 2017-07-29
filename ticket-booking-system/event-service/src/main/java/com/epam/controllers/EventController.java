@@ -44,7 +44,7 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<List<Event>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
-    //TODO: In case nothing was found, empty list is returned.
+    //TODO: remake date
     @RequestMapping(value = "/date", method = RequestMethod.GET)
     ResponseEntity<List<Event>> getEventsForDay(@RequestParam("date") String date,
                                                 @RequestParam("from") int pageSize,

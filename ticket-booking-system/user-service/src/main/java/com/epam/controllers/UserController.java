@@ -73,8 +73,11 @@ public class UserController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> deleteUser(@PathVariable(value = "id") long id) {
-        userService.deleteUser(id);
+        boolean isDeleted = userService.deleteUser(id);
+        if (isDeleted) {
+            return new ResponseEntity<String>("User has been deleted.", HttpStatus.OK);
+        }
 
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<String>("User hasn't been deleted.", HttpStatus.CONFLICT);
     }
 }

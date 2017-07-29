@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService implements IUserService {
 
     @Autowired
@@ -31,7 +33,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> getUsersByName(String name, int pageSize, int pageNum) {
-        return userRepository.findUsersByName(name, new PageRequest(pageSize, pageNum));
+        return userRepository.findUsersByNameContaining(name, new PageRequest(pageSize, pageNum));
     }
 
     @Override
@@ -41,12 +43,14 @@ public class UserService implements IUserService {
 
     @Override
     public User updateUser(User user) {
-        return userRepository.save(user);
+        return userRepository.updateUser(user.getName(), user.getEmail(), user.getId());
     }
 
     @Override
-    public void deleteUser(long userId) {
+    public boolean deleteUser(long userId) {
         userRepository.delete(userId);
+
+        return userRepository.findOne(userId) == null;
     }
 
     @Override
