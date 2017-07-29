@@ -18,8 +18,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findEventsByDate(@Param("date") Date date, Pageable pageable);
 
-    //TODO: check working
-    @Modifying
-    @Query("update Event e set e.date = ?1, e.title = ?2 where e.id = ?3")
-    Event updateEvent(Date date, String title, long id);
+    @Modifying(clearAutomatically = true)
+    @Query("update Event e set e.date =:date, e.title =:title where e.id =:id")
+    Integer updateEvent(@Param("date") Date date, @Param("title") String title, @Param("id") long id);
 }

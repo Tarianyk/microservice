@@ -54,9 +54,6 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody @Valid UserDto userDto) {
-        if (userService.isUserExist(userDto)) {
-            throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
-        }
         userService.createUser(userDto);
 
         return new ResponseEntity<String>(HttpStatus.CREATED);

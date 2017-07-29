@@ -42,7 +42,6 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         ValidationErrorDto validationErrorDto =
                 new ValidationErrorDto(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
 
-        log.info("testtest");
         return handleExceptionInternal(ex, validationErrorDto, headers, validationErrorDto.getStatus(), request);
     }
 }

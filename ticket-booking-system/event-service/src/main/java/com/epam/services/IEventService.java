@@ -1,6 +1,7 @@
 package com.epam.services;
 
 import com.epam.domain.Event;
+import com.epam.dto.EventDto;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -42,19 +43,19 @@ public interface IEventService {
     /**
      * Creates new event. Event id should be auto-generated.
      *
-     * @param event Event data.
+     * @param eventDto Event data.
      * @return Created Event object.
      */
-    Event createEvent(Event event);
+    Event createEvent(EventDto eventDto);
 
 
     /**
      * Updates event using given data.
      *
-     * @param event Event data for update. Should have id set.
+     * @param eventDto Event data for update. Should have id set.
      * @return Updated Event object.
      */
-    Event updateEvent(Event event);
+    Event updateEvent(EventDto eventDto);
 
     /**
      * Deletes event by its id.
@@ -64,5 +65,5 @@ public interface IEventService {
      */
     void deleteEvent(long eventId);
 
-    public boolean isEventExists(Event event);
+    public boolean isEventExists(EventDto eventDto);
 }

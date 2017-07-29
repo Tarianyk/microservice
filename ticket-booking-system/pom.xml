@@ -3,20 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.epam</groupId>
-    <artifactId>ticket-booking-system</artifactId>
+    <artifactId>ticketCommand-booking-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>api-gateway-service</module>
         <module>event-service</module>
         <module>user-service</module>
         <module>eureka-service</module>
-        <module>ticket-service</module>
+        <module>ticketCommand-service</module>
         <module>rabbitmq-service</module>
         <module>rabbit-service</module>
     </modules>
     <packaging>pom</packaging>
 
-    <name>ticket-booking-system</name>
+    <name>ticketCommand-booking-system</name>
     <url>http://maven.apache.org</url>
 
     <parent>

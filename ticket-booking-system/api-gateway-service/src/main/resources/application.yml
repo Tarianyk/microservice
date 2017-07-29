@@ -6,10 +6,10 @@ zuul:
       path: /user/**
       serviceId: USER-SERVICE
     event-service:
-      path: /client/**
+      path: /event/**
       serviceId: EVENT-SERVICE
-    ticket-service:
-      path: /ticket/**
+    ticketCommand-service:
+      path: /ticketCommand/**
       serviceId: TICKET-SERVICE
 
 eureka:

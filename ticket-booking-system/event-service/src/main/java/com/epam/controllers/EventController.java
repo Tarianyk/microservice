@@ -1,6 +1,7 @@
 package com.epam.controllers;
 
 import com.epam.domain.Event;
+import com.epam.dto.EventDto;
 import com.epam.exceptions.EventExistsException;
 import com.epam.services.IEventService;
 import com.google.common.collect.Lists;
@@ -20,7 +21,8 @@ import java.util.Optional;
 public class EventController {
 
     private static final String EVENT_ALREADY_EXISTS = "Event already exists.";
-    public static final String DATE_PATTERN = "dd-MM-yyyy";
+    private static final String DATE_PATTERN = "dd-MM-yyyy";
+    private static final String EVENT_DOESNT_EXIST = "Event doesn't exist.";
 
     @Autowired
     private IEventService eventService;
@@ -56,24 +58,20 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<List<Event>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
+    //TODO: remake to dto
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    ResponseEntity<Event> createEvent(@RequestBody @Valid Event event) {
-        if (eventService.isEventExists(event)) {
-            throw new EventExistsException(EVENT_ALREADY_EXISTS, HttpStatus.CONFLICT);
-        }
-        eventService.createEvent(event);
+    ResponseEntity<Event> createEvent(@RequestBody @Valid EventDto eventDto) {
+        eventService.createEvent(eventDto);
 
         return new ResponseEntity<Event>(HttpStatus.CREATED);
     }
 
-    //TODO: remake query
-    //TODO: change logic
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    ResponseEntity<Event> updateEvent(@RequestBody @Valid Event event) {
-        if (!eventService.isEventExists(event)) {
-            throw new EventExistsException(EVENT_ALREADY_EXISTS, HttpStatus.CONFLICT);
+    ResponseEntity<Event> updateEvent(@RequestBody @Valid EventDto eventDto) {
+        if (!eventService.isEventExists(eventDto)) {
+            throw new EventExistsException(EVENT_DOESNT_EXIST, HttpStatus.CONFLICT);
         }
-        Event updatedEvent = eventService.updateEvent(event);
+        Event updatedEvent = eventService.updateEvent(eventDto);
 
         return new ResponseEntity<Event>(updatedEvent, HttpStatus.OK);
     }
