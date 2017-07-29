@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -39,22 +39,15 @@ public class UserService implements IUserService {
 
     @Override
     public User createUser(UserDto userDto) {
-        return userRepository.save(extractUser(userDto));
-    }
-
-    private User extractUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        return user;
+        return userRepository.save(conversionService.convert(userDto, User.class));
     }
 
     @Override
     public User updateUser(UserDto userDto) {
-        User user = extractUser(userDto);
+        User user = conversionService.convert(userDto, User.class);
+        userRepository.updateUser(user.getName(), user.getEmail(), user.getId());
 
-        return userRepository.updateUser(user.getName(), user.getEmail(), user.getId());
+        return userRepository.findOne(user.getId());
     }
 
     @Override
@@ -66,8 +59,7 @@ public class UserService implements IUserService {
 
     @Override
     public boolean isUserExist(UserDto userDto) {
-        return Optional.ofNullable(userRepository.findOne(userDto.getId())).isPresent();
+        return Objects.nonNull(userRepository.findOne(userDto.getId()));
     }
-
 
 }

@@ -19,6 +19,7 @@ import java.util.Optional;
 public class UserController {
 
     private static final String USER_ALREADY_EXISTS = "User already exists.";
+    private static final String USER_DOESNT_EXIST =  "User doesn't exist.";
 
     @Autowired
     private IUserService userService;
@@ -65,7 +66,7 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity<?> updateUser(@RequestBody @Valid UserDto userDto) {
         if (!userService.isUserExist(userDto)) {
-            throw new UserExistException(USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
+            throw new UserExistException(USER_DOESNT_EXIST, HttpStatus.CONFLICT);
         }
         User updatedUser = userService.updateUser(userDto);
 

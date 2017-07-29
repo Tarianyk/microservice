@@ -16,7 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findUsersByNameContaining(@Param("name") String name, Pageable pageable);
 
-    @Modifying
-    @Query("update User u set u.name = ?1, u.email = ?2 where u.id = ?3")
-    User updateUser(String name, String email, long id);
+    @Modifying(clearAutomatically = true)
+    @Query("update User u set u.name =:name, u.email =:email where u.id =:id")
+    Integer updateUser(@Param("name") String name, @Param("email") String email, @Param("id") long id);
+
 }
