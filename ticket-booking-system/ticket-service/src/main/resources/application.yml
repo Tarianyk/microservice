@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ticketCommand-service
+    name: ticket-service
 
 server:
   port: 8074

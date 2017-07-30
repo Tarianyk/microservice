@@ -1,6 +1,7 @@
 package com.epam.exceptions_handler;
 
 import com.epam.dto.ValidationErrorDto;
+import com.epam.exception.BookTicketException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<?> handleUserExistException(IllegalStateException e) {
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BookTicketException.class)
+    public ResponseEntity<?> handleUserOrEventDoesntExist(BookTicketException e) {
+        return new ResponseEntity<String>(e.getMessage(), e.getStatus());
     }
 
     @Override

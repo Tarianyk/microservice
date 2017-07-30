@@ -3,9 +3,11 @@ package com.epam.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
-public class TicketQueryDto {
+public class TicketDto implements Serializable {
+    private long id;
     @NotNull
     private long userId;
     @NotNull
@@ -14,5 +16,4 @@ public class TicketQueryDto {
     private int place;
     @NotNull
     private int price;
-
 }

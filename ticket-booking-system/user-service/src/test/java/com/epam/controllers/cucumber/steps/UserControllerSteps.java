@@ -3,6 +3,7 @@ package com.epam.controllers.cucumber.steps;
 import com.epam.config.DataBaseConfigurationTest;
 import com.epam.controllers.UserController;
 import com.epam.domain.User;
+import com.epam.dto.UserDto;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -24,8 +25,8 @@ public class UserControllerSteps {
         userController.createUser(getUser(name, email));
     }
 
-    private User getUser(String name, String email) {
-        User user = new User();
+    private UserDto getUser(String name, String email) {
+        UserDto user = new UserDto();
         user.setEmail(email);
         user.setName(name);
 
@@ -36,7 +37,16 @@ public class UserControllerSteps {
     public void theClientUpdatesAccount(String oldEmail, String newEmail) {
         User oldUser = userController.getUserByEmail(oldEmail).getBody();
         oldUser.setEmail(newEmail);
-        userController.updateUser(oldUser);
+        userController.updateUser(createUserDto(oldUser));
+    }
+
+    private UserDto createUserDto(User oldUser) {
+        UserDto userDto = new UserDto();
+        userDto.setId(oldUser.getId());
+        userDto.setName(oldUser.getName());
+        userDto.setEmail(oldUser.getEmail());
+
+        return userDto;
     }
 
     @Then("^the client with email (.*) wants to check his data$")

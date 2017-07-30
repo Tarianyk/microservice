@@ -8,8 +8,8 @@ zuul:
     event-service:
       path: /event/**
       serviceId: EVENT-SERVICE
-    ticketCommand-service:
-      path: /ticketCommand/**
+    ticket-service:
+      path: /ticket/**
       serviceId: TICKET-SERVICE
 
 eureka:

@@ -1,7 +1,7 @@
 package com.epam.services;
 
 import com.epam.domain.TicketCommand;
-import com.epam.dto.TicketCommandDto;
+import com.epam.dto.TicketDto;
 
 public interface ITicketCommandService {
 
@@ -11,7 +11,7 @@ public interface ITicketCommandService {
      * @return Booked ticket object.
      * @throws java.lang.IllegalStateException if this place has already been booked.
      */
-    TicketCommand bookTicket(TicketCommandDto ticketCommandDto);
+    TicketCommand bookTicket(TicketDto ticketDto);
 
     /**
      * Cancel ticket with a specified id.

@@ -1,6 +1,7 @@
 package com.epam.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "ticket_command")
 @Data
+@ToString
 public class TicketCommand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 class Config extends WebMvcConfigurerAdapter {
 
-    @LoadBalanced
+//    @LoadBalanced
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

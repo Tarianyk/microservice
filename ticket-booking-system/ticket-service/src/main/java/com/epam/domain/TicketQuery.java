@@ -1,12 +1,16 @@
 package com.epam.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ticket_query")
 @Data
+@ToString
+@EqualsAndHashCode
 public class TicketQuery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
