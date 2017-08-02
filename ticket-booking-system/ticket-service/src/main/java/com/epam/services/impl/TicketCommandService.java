@@ -4,7 +4,7 @@ import com.epam.domain.TicketCommand;
 import com.epam.dto.TicketDto;
 import com.epam.exception.BookTicketException;
 import com.epam.repository.TicketCommandRepository;
-import com.epam.services.ICheck;
+import com.epam.services.IRemoteCheckEntity;
 import com.epam.services.ITicketCommandService;
 import org.springframework.amqp.rabbit.core.RabbitMessagingTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ public class TicketCommandService implements ITicketCommandService {
     @Autowired
     private ConversionService conversionService;
     @Autowired
-    private ICheck check;
+    private IRemoteCheckEntity check;
     @Autowired
     private RabbitMessagingTemplate rabbitMessagingTemplate;
 
@@ -33,35 +34,16 @@ public class TicketCommandService implements ITicketCommandService {
         checkOnExistingUserAndEvent(ticketDto);
         checkOnExistingBookedPlace(ticketDto);
 
-        TicketCommand savedEntity = ticketCommandRepository.save(conversionService.convert(ticketDto, TicketCommand.class));
-        if (Objects.nonNull(savedEntity)) {
+        Optional<TicketCommand> savedEntity = Optional.ofNullable(ticketCommandRepository.save(conversionService.convert(ticketDto, TicketCommand.class)));
+        if (savedEntity.isPresent()) {
             rabbitMessagingTemplate.convertAndSend("queue1", conversionService.convert(savedEntity, TicketDto.class));
         } else {
             throw new BookTicketException("The error was invoked during saving Ticket entity into command storage.", HttpStatus.OK);
         }
 
-        return savedEntity;
+        return savedEntity.get();
     }
 
-    private void checkOnExistingBookedPlace(TicketDto ticketDto) {
-        TicketCommand ticketCommandByPlace = ticketCommandRepository.findTicketByPlace(ticketDto.getPlace());
-        if (Objects.nonNull(ticketCommandByPlace)) {
-            throw new IllegalStateException("Specified place has already been booked.");
-        }
-    }
-
-    private void checkOnExistingUserAndEvent(TicketDto ticketDto) {
-        if (!check.userExists(ticketDto.getUserId()) | !check.eventExists(ticketDto.getEventId())) {
-            throw new BookTicketException("Event or User entities doesnt exist.", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /**
-     * Cancel ticket with a specified id.
-     *
-     * @param ticketId TicketCommand id.
-     * @return Flag whether anything has been canceled.
-     */
     @Override
     public boolean cancelTicket(long ticketId) {
         TicketCommand ticket = ticketCommandRepository.findOne(ticketId);
@@ -70,6 +52,19 @@ public class TicketCommandService implements ITicketCommandService {
         }
         ticketCommandRepository.delete(ticketId);
         return true;
+    }
+
+    private void checkOnExistingUserAndEvent(TicketDto ticketDto) {
+        if (!check.userExists(ticketDto.getUserId()) | !check.eventExists(ticketDto.getEventId())) {
+            throw new BookTicketException("Event or User entities doesnt exist.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private void checkOnExistingBookedPlace(TicketDto ticketDto) {
+        Optional<TicketCommand> ticketByPlace = Optional.ofNullable(ticketCommandRepository.findTicketByPlace(ticketDto.getPlace()));
+        if (ticketByPlace.isPresent()) {
+            throw new IllegalStateException("Specified place has already been booked.");
+        }
     }
 
 }

@@ -20,11 +20,13 @@ public class TicketCommandController {
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     ResponseEntity<TicketCommand> bookTicket(@RequestBody TicketDto bookTicketDto) {
         TicketCommand ticketCommand = ticketCommandService.bookTicket(bookTicketDto);
+
         return new ResponseEntity<TicketCommand>(ticketCommand, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/cancel/id/{ticketId}", method = RequestMethod.POST)
     ResponseEntity<Boolean> cancelTicket(@PathVariable("ticketId") long ticketId) {
+
         return new ResponseEntity<Boolean>(ticketCommandService.cancelTicket(ticketId), HttpStatus.OK);
     }
 

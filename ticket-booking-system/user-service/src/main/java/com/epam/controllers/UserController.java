@@ -24,7 +24,6 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    //TODO: In case nothing was found, empty list is returned.
     @RequestMapping(value = "/id/{userId}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserById(@PathVariable(value = "userId") long userId) {
         Optional<User> optUser = Optional.ofNullable(userService.getUserById(userId));

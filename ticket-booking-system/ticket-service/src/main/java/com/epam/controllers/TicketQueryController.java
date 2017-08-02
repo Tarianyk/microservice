@@ -15,21 +15,13 @@ import java.util.List;
 public class TicketQueryController {
 
     @Autowired
-    private ITicketQueryService tickeQueryService;
+    private ITicketQueryService ticketQueryService;
 
-    /**
-     * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.
-     *
-     * @param pageSize Pagination param. Number of tickets to return on a page.
-     * @param pageNum  Pagination param. Number of the page to return. Starts from 1.
-     * @return List of TicketQuery objects.
-     */
     @RequestMapping(value = "/bookedTickets/user/{userId}", method = RequestMethod.GET)
     public ResponseEntity<List<TicketQuery>> getBookedTicketsForUser(@PathVariable("userId") @NotNull int userId,
                                                                      @RequestParam("pageSize") @NotNull int pageSize,
                                                                      @RequestParam("pageNum") @NotNull int pageNum) {
-        System.out.println("00000000000000000000");
-        List<TicketQuery> bookedTicketsForUser = tickeQueryService.getBookedTicketsForUser(userId, pageSize, pageNum);
+        List<TicketQuery> bookedTicketsForUser = ticketQueryService.getBookedTicketsForUser(userId, pageSize, pageNum);
 
         return new ResponseEntity<List<TicketQuery>>(bookedTicketsForUser, HttpStatus.OK);
     }

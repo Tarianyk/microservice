@@ -23,6 +23,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserExistException.class)
     public ResponseEntity<?> handleUserExistException(UserExistException e) {
+        log.debug("User doesn't exist.", e);
         return new ResponseEntity<String>(e.getMessage(), e.getStatus());
     }
 
@@ -31,6 +32,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
+        log.debug("Method contains invalid arguments.", ex);
         List<String> errors = new ArrayList<String>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());

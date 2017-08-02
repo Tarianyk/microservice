@@ -35,7 +35,6 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
-    //TODO: In case nothing was found, empty list is returned.
     @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
     ResponseEntity<List<Event>> getEventsByTitle(@PathVariable(value = "title") String title,
                                                  @RequestParam("from") int pageSize,
@@ -58,7 +57,6 @@ public class EventController {
                 .orElseGet(() -> new ResponseEntity<List<Event>>(Lists.newArrayList(), HttpStatus.OK));
     }
 
-    //TODO: remake to dto
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     ResponseEntity<Event> createEvent(@RequestBody @Valid EventDto eventDto) {
         eventService.createEvent(eventDto);

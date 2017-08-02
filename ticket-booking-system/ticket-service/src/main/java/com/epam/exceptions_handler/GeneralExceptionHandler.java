@@ -21,13 +21,21 @@ import java.util.List;
 @Slf4j
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleOtherExceptions(IllegalStateException e) {
+        log.debug(e.getMessage(), e);
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<?> handleUserExistException(IllegalStateException e) {
+        log.debug("User doesn't exist.", e);
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(BookTicketException.class)
     public ResponseEntity<?> handleUserOrEventDoesntExist(BookTicketException e) {
+        log.debug("User or Event doesn't exist.", e);
         return new ResponseEntity<String>(e.getMessage(), e.getStatus());
     }
 
@@ -36,6 +44,8 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
+        log.debug("Method contains invalid arguments.", ex);
+
         List<String> errors = new ArrayList<String>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
