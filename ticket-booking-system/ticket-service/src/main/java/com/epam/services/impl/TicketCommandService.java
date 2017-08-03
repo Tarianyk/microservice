@@ -47,6 +47,7 @@ public class TicketCommandService implements ITicketCommandService {
     @Override
     public boolean cancelTicket(long ticketId) {
         TicketCommand ticket = ticketCommandRepository.findOne(ticketId);
+        System.err.println("--> " + ticket);
         if (Objects.nonNull(ticket)) {
             return false;
         }

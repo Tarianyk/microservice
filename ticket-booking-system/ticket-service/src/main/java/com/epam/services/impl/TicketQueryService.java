@@ -34,7 +34,7 @@ public class TicketQueryService implements ITicketQueryService {
     @Override
     public List<TicketQuery> getBookedTicketsForUser(long userId, int pageSize, int pageNum) {
         Optional<List<TicketQuery>> bookedTickets = Optional.ofNullable(ticketQueryRepository.findAllByUserId(userId, new PageRequest(pageSize, pageNum)));
-        if (!bookedTickets.isPresent() | bookedTickets.get().size() == 0) {
+        if (!bookedTickets.isPresent() || bookedTickets.get().size() == 0) {
             throw new BookTicketException("Tickets by current id doesnt exist.", HttpStatus.BAD_REQUEST);
         }
 
@@ -56,7 +56,8 @@ public class TicketQueryService implements ITicketQueryService {
     @Override
     public List<TicketQuery> getBookedTicketsForEvent(long eventId, int pageSize, int pageNum) {
         Optional<List<TicketQuery>> bookedTickets = Optional.ofNullable(ticketQueryRepository.findAllByEventId(eventId, new PageRequest(pageSize, pageNum)));
-        if (!bookedTickets.isPresent() | bookedTickets.get().size() == 0) {
+        //TODO ||
+        if (!bookedTickets.isPresent() || bookedTickets.get().size() == 0) {
             throw new BookTicketException("Tickets by current id doesnt exist.", HttpStatus.BAD_REQUEST);
         }
 
@@ -67,8 +68,8 @@ public class TicketQueryService implements ITicketQueryService {
     }
 
     @Override
-    public List<BookingReport> getBookingReports() {
-        return null;
+    public List<BookingReport> getBookingReports(long eventId) {
+        return ticketQueryRepository.findBookingReports(eventId);
     }
 
     private Long getEventDateFromJson(TicketQuery entry) {

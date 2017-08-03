@@ -31,6 +31,6 @@ public interface ITicketQueryService {
      *
      * @return List of booking reports by event.
      **/
-    List<BookingReport> getBookingReports();
+    List<BookingReport> getBookingReports(long eventId);
 
 }

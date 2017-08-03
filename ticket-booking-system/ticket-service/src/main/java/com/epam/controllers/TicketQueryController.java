@@ -30,11 +30,15 @@ public class TicketQueryController {
     public ResponseEntity<List<TicketQuery>> getBookedTicketsForEvent(@PathVariable("eventId") int eventId,
                                                                       @RequestParam("pageSize") int pageSize,
                                                                       @RequestParam("pageNum") int pageNum) {
-        return null;
+        List<TicketQuery> bookedTicketsForEvent = ticketQueryService.getBookedTicketsForEvent(eventId, pageSize, pageNum);
+
+        return new ResponseEntity<List<TicketQuery>>(bookedTicketsForEvent, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/bookedTickets", method = RequestMethod.GET)
-    public ResponseEntity<List<BookingReport>> getBookingReports() {
-        return null;
+    @RequestMapping(value = "/bookedTickets/{evenId}", method = RequestMethod.GET)
+    public ResponseEntity<List<BookingReport>> getBookingReports(@PathVariable("eventId") int eventId) {
+        List<BookingReport> bookingReports = ticketQueryService.getBookingReports(eventId);
+
+        return new ResponseEntity<List<BookingReport>>(bookingReports, HttpStatus.OK);
     }
 }
